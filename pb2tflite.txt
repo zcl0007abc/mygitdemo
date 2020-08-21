@@ -1,0 +1,95 @@
+https://blog.csdn.net/qq_36387683/article/details/108107714?utm_medium=distribute.pc_relevant.none-task-blog-baidulandingword-5&spm=1001.2101.3001.4242
+3.获取输入输出节点
+
+进行frozen_inference_graph.pb模型解析，得到输入输出节点信息
+
+代码入下：
+"""
+code by zzg
+"""
+import tensorflow as tf
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+config = tf.ConfigProto() 
+config.gpu_options.allow_growth = True 
+ 
+with tf.Session() as sess:
+    with open('frozen_inference_graph_resnet.pb','rb') as f:
+        graph_def = tf.GraphDef()
+        graph_def.ParseFromString(f.read())
+ 
+        tf.import_graph_def(graph_def, name='')
+        tensor_name_list = [tensor.name for tensor in tf.get_default_graph().as_graph_def().node]
+        for tensor_name in tensor_name_list:
+             print(tensor_name,'\n')
+			 
+4.量化（pb->tflite）
+
+4.1方法一：利用TFLiteConverter
+'''
+code by zzg 2020-04-27
+'''
+import tensorflow as tf
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+config = tf.ConfigProto() 
+config.gpu_options.allow_growth = True 
+ 
+graph_def_file = "frozen_inference_graph.pb"
+ 
+input_names = ["FeatureExtractor/MobilenetV2/MobilenetV2/input"]
+output_names = ["concat", "concat_1"]
+input_tensor = {input_names[0]:[1,300,300,3]}
+ 
+ 
+#uint8 quant
+converter = tf.lite.TFLiteConverter.from_frozen_graph(graph_def_file, input_names, output_names, input_tensor)
+converter.target_ops = [tf.lite.OpsSet.TFLITE_BUILTINS,tf.lite.OpsSet.SELECT_TF_OPS]
+converter.allow_custom_ops=True
+ 
+converter.inference_type = tf.uint8    #tf.lite.constants.QUANTIZED_UINT8
+input_arrays = converter.get_input_arrays()
+converter.quantized_input_stats = {input_arrays[0]: (127.5, 127.5)} # mean, std_dev
+converter.default_ranges_stats = (0, 255)
+ 
+tflite_uint8_model = converter.convert()
+open("uint8.tflite", "wb").write(tflite_uint8_model)
+
+5.tflite测试
+
+在转换完成后，进行tflie解析测试，验证最后转换成功。
+
+代码入下：
+
+'''
+code by zzg 2020-04-30
+'''
+import tensorflow as tf
+import numpy as np
+InputSize = 300
+ 
+def test_tflite(input_test_tflite_file):
+    interpreter = tf.lite.Interpreter(model_path = input_test_tflite_file)
+    tensor_details = interpreter.get_tensor_details()
+    for i in range(0,len(tensor_details)):
+        # print("tensor:", i, tensor_details[i])
+        interpreter.allocate_tensors()
+ 
+    input_details = interpreter.get_input_details()
+    print("=======================================")
+    print("input :", str(input_details))
+    output_details = interpreter.get_output_details()
+    print("ouput :", str(output_details))
+    print("=======================================")
+    new_img = np.random.uniform(0,1,(1,InputSize,InputSize,3))
+    # image_np_expanded = np.expand_dims(new_img, axis=0)
+    new_img = new_img.astype('uint8')# 类型也要满足要求
+ 
+    interpreter.set_tensor(input_details[0]['index'],new_img)
+    # 注意注意，我要调用模型了
+    interpreter.invoke()
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    print("test_tflite finish!")
+ 
+intput_tflite_file = "uint8.tflite"
+test_tflite(intput_tflite_file)
