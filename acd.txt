@@ -1,0 +1,63 @@
+语义分割
+https://blog.csdn.net/zym19941119/article/details/81198315
+
+https://blog.csdn.net/weixin_41122036/article/details/103194550
+
+Tensorflow之deeplab训练cityscapes数据集
+https://blog.csdn.net/zong596568821xp/article/details/105979328
+
+
+https://blog.csdn.net/hhy018/article/details/85100339
+
+
+Tensorflow下利用Deeplabv3+训练自己的数据(超详细完整版）
+https://blog.csdn.net/alphonse2017/article/details/103202446/
+https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/model_zoo.md
+
+
+deeplabv3语义分割视频学习：https://edu.csdn.net/course/play/25328/298667
+
+
+GitHub的注册与使用（详细图解）
+https://blog.csdn.net/weixin_42693104/article/details/82584849
+https://blog.csdn.net/wifi74262580/article/details/85060187
+
+git add “mac_n_cheese_inference_graph.zip”
+git commit -m "mac_n_cheese_inference_graph.zip"
+git push origin master
+
+git remote add origin git@github.com/zcl0007abc/mygitdemo.git
+https://github.com/zcl0007abc/mygitdemo.git
+
+
+
+
+
+
+
+风格迁移-fast-neural-style-tensorflow 代码阅读及注释
+https://blog.csdn.net/qq_28888837/article/details/88745304
+
+
+ Anaconda+用conda创建python虚拟环境
+https://www.cnblogs.com/swje/p/7642929.html
+
+https://blog.csdn.net/qq_30611601/article/details/79067982?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase
+
+deeplabv3 mobilenet  https://blog.csdn.net/u011886519/article/details/92656517
+https://www.lizenghai.com/archives/66992.html
+https://blog.csdn.net/qq_42738654/article/details/106219923
+
+Tensorflow对训练后的模型做8位（uint8）量化转换
+https://blog.csdn.net/huachao1001/article/details/101285133?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase
+
+
+https://blog.csdn.net/qq_36387683/article/details/108107714?utm_medium=distribute.pc_relevant.none-task-blog-baidulandingword-5&spm=1001.2101.3001.4242
+
+https://blog.csdn.net/weixin_43056275/article/details/105225089
+
+模型下载网址：
+https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md
+
+
+
